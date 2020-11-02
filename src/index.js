@@ -12,18 +12,23 @@ const refs = {
     stopBtn: document.querySelector('button[data-action="stop"'),
 };
 
-let interval = null;
+let intervalId = null;
 
 setRandomColor = () => {
-    const color = colors[randomIntegerFromInterval(0, colors.length - 1)];
-    console.log(color);
-    document.body.style.backgroundColor = color;
-}
+  const color = colors[randomIntegerFromInterval(0, colors.length - 1)];
+  console.log(color);
+  document.body.style.backgroundColor = color;
+};
 
-refs.startBtn.addEventListener('click', (e) => interval = interval ? interval :
-    setInterval(() => setRandomColor(), 1000));
+refs.startBtn.addEventListener('click', () => {
+  intervalId = setInterval(() => setRandomColor(), 1000);
+  refs.startBtn.disabled = true;
+});
 
-refs.stopBtn.addEventListener('click', (e) => clearInterval(interval));
+refs.stopBtn.addEventListener('click', () => {
+  clearInterval(intervalId);
+  refs.startBtn.disabled = false;
+});
 
 const randomIntegerFromInterval = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1) + min)
